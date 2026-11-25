@@ -1,0 +1,3 @@
+name: multicloud-networking
+runtime: python
+description: AWS networking microservice — VPC, IGW, Subnets, NAT, Route Tables
