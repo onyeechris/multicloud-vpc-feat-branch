@@ -1,10 +1,12 @@
-# MultiCloud Edge — AWS Networking Microservice
+# MultiCloud — AWS Networking Microservice
+
+> **Authentication:** every endpoint except `/health` requires `Authorization: Bearer <JWT>`. See the top-level README for how tokens are validated. The route list in the README (or `/docs`) is authoritative if this guide differs.
 
 A **FastAPI + Pulumi Automation API** microservice that provisions AWS networking
 infrastructure on demand. Each resource type is an independent Pulumi stack with its
 own full CRUD API. Users interact via REST — no AWS Console, no manual Pulumi commands.
 
-This service is one microservice in the larger **MultiCloud Edge** platform, which lets
+This service is one microservice in the larger **MultiCloud** platform, which lets
 teams provision cloud resources across AWS, Azure, and GCP from a single API surface.
 
 ---

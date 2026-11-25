@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 
+from app.utils.auth import get_current_user
 from app.routes.region import router as region_router
 from app.routes.vpc import router as vpc_router
 from app.routes.subnet import router as subnet_router
@@ -37,7 +38,7 @@ if _passphrase is None:
 os.environ["PULUMI_CONFIG_PASSPHRASE"] = _passphrase
 
 app = FastAPI(
-    title="MultiCloud Edge — AWS Networking Service",
+    title="MultiCloud — AWS Networking Service",
     description=(
         "Microservice for provisioning AWS networking resources via the Pulumi Automation API. "
         "Each resource type (VPC, Subnet, IGW, Route Table, NAT Gateway, Route) is an "
@@ -46,13 +47,13 @@ app = FastAPI(
     version="2.0.0",
 )
 
-app.include_router(region_router)
-app.include_router(vpc_router)
-app.include_router(subnet_router)
-app.include_router(igw_router)
-app.include_router(route_table_router)
-app.include_router(nat_gateway_router)
-app.include_router(route_router)
+app.include_router(region_router, dependencies=[Depends(get_current_user)])
+app.include_router(vpc_router, dependencies=[Depends(get_current_user)])
+app.include_router(subnet_router, dependencies=[Depends(get_current_user)])
+app.include_router(igw_router, dependencies=[Depends(get_current_user)])
+app.include_router(route_table_router, dependencies=[Depends(get_current_user)])
+app.include_router(nat_gateway_router, dependencies=[Depends(get_current_user)])
+app.include_router(route_router, dependencies=[Depends(get_current_user)])
 
 
 @app.get("/health", tags=["Health"])
